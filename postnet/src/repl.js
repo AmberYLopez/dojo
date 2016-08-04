@@ -1,7 +1,8 @@
 let repl = require('repl');
-let route = require('./route1');
+let Route = require('./route1');
+let route = new Route();
 
-console.log(route().text);//打印菜单
+console.log(route.go().text);//打印菜单
 
 function handleCmd(cmd, context, filename, done) {
     switchRouter({
@@ -10,10 +11,10 @@ function handleCmd(cmd, context, filename, done) {
     done(null);
 }
 function switchRouter(context, done) {
-    let result = route(context.cmd);
+    let result = route.go((context.cmd));
     console.log(result.text);
-    if(result.reture){
-        console.log(route().text);
+    if(result.rerun){
+        console.log(route.go().text);
     }
     done(null);
 }

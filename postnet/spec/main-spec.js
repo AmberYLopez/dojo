@@ -1,5 +1,4 @@
-/*global describe,it,expect,toEqual*/
-let {getformatted, formattedGroup, buildAll, checkcode, printPostcode, print, checkedPostcode, printBarcodes, buildBarcodes, compositeBarcodes, calculatCheck, finialPostcode} = require('../src/main.js');
+let {getformatted, formattedGroup, buildAll, checkcode, printPostcode, print, checkedPostcode, printBarcodes, buildBarcodes, compositeBarcodes, calculatCheck, finialPostcode} = require('../src/core');
 let {loadAllBarcodes} = require('../src/barcodes.js');
 
 describe('my', () => {
@@ -194,21 +193,21 @@ describe('my', () => {
     it('邮编转条码集成测试（位数错误）', () => {
 
         let postcode = '23450506545';
-        let expectPostcode = 'Please give right input';
+        let expectPostcode = { error: 'Please give right input', type: false };
         let finialPostcode = print(postcode);
         expect(finialPostcode).toEqual(expectPostcode);
     });
     it('邮编转条码集成测试（非法字符）', () => {
 
         let postcode = '454602.35';
-        let expectPostcode = 'Please give right input';
+        let expectPostcode = { error: 'Please give right input', type: false };
         let finialPostcode = print(postcode);
         expect(finialPostcode).toEqual(expectPostcode);
     });
     it('邮编转条码集成测试（-位置不正确）', () => {
 
         let postcode = '12345-678';
-        let expectPostcode = 'Please give right input';
+        let expectPostcode = { error: 'Please give right input', type: false };
         let finialPostcode = print(postcode);
         expect(finialPostcode).toEqual(expectPostcode);
     });
@@ -231,21 +230,21 @@ describe('my', () => {
     it('条码转邮编集成测试（位数错误）', () => {
 
         let postcode = '|:|::|:|:|:||::::|:|:|';
-        let expectPostcode = 'Please give right input';
+        let expectPostcode = { error: 'Please give right input', type: false };
         let Postcode = finialPostcode(postcode);
         expect(Postcode).toEqual(expectPostcode);
     });
     it('条码转邮编集成测试（检验码错误）', () => {
 
         let postcode = '|:|::|:|:|:||::::|:|::||:::|::||';//5位
-        let expectPostcode = 'Please give right input';
+        let expectPostcode = { error: 'Please give right input', type: false };
         let Postcode = finialPostcode(postcode);
         expect(Postcode).toEqual(expectPostcode);
     });
 
     it('command条码转邮编检验（错误）', () => {
         let zipCode = '|:|::|:|:|:||::::|:|::||::||:*|';//5位
-        let expectPostcode = 'Please give right input';
+        let expectPostcode = { error: 'Please give right input', type: false };
         let Postcode = finialPostcode(zipCode);
         expect(Postcode).toEqual(expectPostcode);
     });
@@ -263,10 +262,13 @@ describe('my', () => {
     });
     it('command邮编转条码检验（错误）', () => {
         let barCode = '450564561515';//5位
-        let expectPostcode = 'Please give right input';
+        let expectPostcode = { error: 'Please give right input', type: false };
         let finialPostcode = print(barCode);
         expect(finialPostcode).toEqual(expectPostcode);
-    })
+    });
 });
+
+
+
 
 
